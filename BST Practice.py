@@ -10,35 +10,35 @@ class BST(object):
         self.root = Node(root)
 
     def insert(self, new_val):
-        start = self.root
-        while start:
-            if start.value == new_val:
-                pass
-            elif start.value > new_val:
-                if start.left:
-                    start = start.left
+        current = self.root
+        while current:
+            if current.value == new_val:
+                return None
+            elif current.value > new_val:
+                if current.left:
+                    current = current.left
                 else:
-                    start.left = new_val
+                    current.left = Node(new_val)
             else:
-                if start.right:
-                    start = start.right
+                if current.right:
+                    current = current.right
                 else:
-                    start.right = new_val
+                    current.right = Node(new_val)
 
     def search(self, find_val):
-        start = self.root
-        while start:
-            if start.value == find_val:
+        current = self.root
+        while current:
+            if current.value == find_val:
                 return True
-            elif start.value > find_val:
-                start = start.left
+            elif current.value > find_val:
+                current = current.left
             else:
-                start = start.right
+                current = current.right
         return False
 
-    def print_in_order(self):
-        start = self.root
-        return print_in_order(start.left) + str(start.value) + print_in_order(start.right)
+   # def print_in_order(self):
+    #    start = self.root
+     #   return print_in_order(start.left) + str(start.value) + print_in_order(start.right)
 
 
 # Set up tree
@@ -58,4 +58,4 @@ tree.search(4)
 print
 tree.search(6)
 
-print(print_in_order(tree))
+#print(print_in_order(tree))
