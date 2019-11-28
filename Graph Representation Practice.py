@@ -65,6 +65,7 @@ class Graph(object):
             else:
                 adjacency_list[edge_object.node_from.value] = [(edge_object.node_to.value, edge_object.value)]
         return adjacency_list
+    
 
     def get_adjacency_matrix(self):
         max_index = self.find_max_index()
