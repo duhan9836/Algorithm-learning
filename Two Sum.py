@@ -24,3 +24,24 @@ class Solution(object):
                     return [i, j]
             i += 1
         return 'No solution to this problem.'
+
+    class Solution(object):
+
+    
+    def twoSum_(self,nums,target):
+        d={}
+        #keys are index of the original list, values are list items
+        for i in range(len(nums)):
+            d[i]=nums[i]
+            d_keys=sorted(d,key=lambda i:nums[i])
+            
+        lower=0
+        upper=len(d_keys)-1
+        while lower<upper:
+            if d[d_keys[lower]]+d[d_keys[upper]]==target:
+                return [d_keys[lower],d_keys[upper]]
+            elif d[d_keys[lower]]+d[d_keys[upper]]>target:
+                upper+=-1
+            else:
+                lower+=1
+        return 'No solution to this problem'
