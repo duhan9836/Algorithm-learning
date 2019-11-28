@@ -49,50 +49,37 @@ class Graph(object):
             edge_list.append(triple)
         return edge_list
 
+    def get_edge_list(self):
+    edge_list = []
+    for edge_object in self.edges:
+        edge = (edge_object.value, edge_object.node_from.value, edge_object.node_to.value)
+        edge_list.append(edge)
+    return edge_list
+
     def get_adjacency_list(self):
-        """Don't return any Node or Edge objects!
-        You'll return a list of lists.
-        The indecies of the outer list represent
-        "from" nodes.
-        Each section in the list will store a list
-        of tuples that looks like this:
-        (To Node, Edge Value)"""
-        adjacency = []
-        for node in self.nodes:
-            node_adjacency = []
-            if node.edges:
-                for edge in node.edges:
-                    if edge.node_from == node:
-                        t = (edge.node_to.value, edge.value)
-                    node_adjacency.append(t)
+        max_index = self.find_max_index()
+        adjacency_list = [None] * (max_index + 1)
+        for edge_object in self.edges:
+            if adjacency_list[edge_object.node_from.value]:
+                adjacency_list[edge_object.node_from.value].append((edge_object.node_to.value, edge_object.value))
             else:
-                node_adjacency.append(None)
-            adjacency.append(node_adjacency)
-        return adjacency
+                adjacency_list[edge_object.node_from.value] = [(edge_object.node_to.value, edge_object.value)]
+        return adjacency_list
 
     def get_adjacency_matrix(self):
-        """Return a matrix, or 2D list.
-        Row numbers represent from nodes,
-        column numbers represent to nodes.
-        Store the edge values in each spot,
-        and a 0 if no edge exists."""
-        outer = []
-        for node in self.nodes:
-            edge_to = []
-            node_to = []
-            for edge in node.edges:
-                if edge.node_from == node:
-                    edge_to.append(edge)
-                    node_to.append(edge.node_to)
-            for node in self.nodes:
-                inner = []
-                if node not in node_to:
-                    inner.append(0)
-                else:
-                    inner.append(1)
-            outer.append(inner)
-        return outer
+        max_index = self.find_max_index()
+        adjacency_matrix = [[0 for i in range(max_index + 1)] for j in range(max_index + 1)]
+        for edge_object in self.edges:
+            adjacency_matrix[edge_object.node_from.value][edge_object.node_to.value] = edge_object.value
+        return adjacency_matrix
 
+    def find_max_index(self):
+        max_index = -1
+        if len(self.nodes):
+            for node in self.nodes:
+                if node.value > max_index:
+                    max_index = node.value
+        return max_index
 
 graph = Graph()
 graph.insert_edge(100, 1, 2)
