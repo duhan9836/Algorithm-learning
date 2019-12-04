@@ -26,7 +26,7 @@ def gcd_euclid_recursion(m,n):
         temp=m%n
         m=n
         n=temp
-        euc=gcd_euclid(m,n)
+        euc=gcd_euclid_recursion(m,n)
         return euc
 
 def gcd_euclid(m,n):
