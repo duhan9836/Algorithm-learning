@@ -1,4 +1,3 @@
-from operator import itemgetter
 class Node:
     def __init__(self, info):
         self.info = info
@@ -51,19 +50,21 @@ def topView(root):
     rightmost = 0
     if root:
         levelnodes = [(root,0)]
-        res.append(root.info)
+        res.append((root.info,0))
         while len(levelnodes)>0:
             temptnodes = map(children,levelnodes)
             levelnodes = [child for childs in temptnodes for child in childs]
-            levelleft = min(levelnodes)[1]
-            levelright = max(levelnodes)[1]
-            if levelleft<leftmost:
-                res.append(min(levelnodes,key=itemgetter(1))[0].info)
-                leftmost = levelleft
-            if levelright>rightmost:
-                res.append(max(levelnodes,key=itemgetter(1))[0].info)
-                rightmost=levelright
-    print(" ".join(map(str,res)))
+            if len(levelnodes)>0:
+                levelleftnode = min(levelnodes,key=lambda x:x[1])
+                levelrightnode = max(levelnodes,key=lambda x:x[1])
+                if levelleftnode[1]<leftmost:
+                    res.append((levelleftnode[0].info,levelleftnode[1]))
+                    leftmost = levelleftnode[1]
+                if levelrightnode[1]>rightmost:
+                    res.append((levelrightnode[0].info,levelrightnode[1]))
+                    rightmost=levelrightnode[1]
+        res = sorted(res,key=lambda x:x[1])
+    print(" ".join(map(lambda x:str(x[0]),res)))
 
 
 def children(nodelvl):
@@ -72,6 +73,7 @@ def children(nodelvl):
         ret.append((nodelvl[0].left,nodelvl[1]-1))
     if nodelvl[0].right:
         ret.append((nodelvl[0].right,nodelvl[1]+1))
+    return ret
 
 
 
